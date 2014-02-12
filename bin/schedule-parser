@@ -1,16 +1,30 @@
 #!/usr/bin/env ruby
 
-require_relative '../lib/timetable-parser'
+require_relative '../lib/schedule-parser'
 require 'optparse'
-
+require 'open-uri'
+require 'Nokogiri'
+include ScheduleParser
 options = {}
 OptionParser.new do |opts|
-  opts.banner = "Usage: timetable-parser"
+  opts.banner = "Usage: schedule-parser groupid"
 
   opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
     options[:verbose] = v
   end
+  
+
+  opts.on("-o","--[no-]echo","Output content of site") do |v|
+  	options[:output] = v
+  end
 end.parse!
 
-p options
-p ARGV
+xml = ScheduleParser.downloadXmlOfGroup(ARGV[0])
+lessons = ScheduleParser.parseLessonsFromXml(xml)
+ScheduleParser.printLessons(lessons)
+
+
+
+
+
+
