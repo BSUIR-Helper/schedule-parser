@@ -1,2 +1,2 @@
-timetable-parser
+schedule-parser
 ================
