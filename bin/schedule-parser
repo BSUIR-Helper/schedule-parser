@@ -12,19 +12,16 @@ OptionParser.new do |opts|
   opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
     options[:verbose] = v
   end
-  
 
   opts.on("-o","--[no-]echo","Output content of site") do |v|
   	options[:output] = v
   end
 end.parse!
 
-xml = ScheduleParser.downloadXmlOfGroup(ARGV[0])
-lessons = ScheduleParser.parseLessonsFromXml(xml)
-ScheduleParser.printLessons(lessons)
-
-
-
-
-
-
+if ARGV.any?
+  xml = ScheduleParser.downloadXmlOfGroup(ARGV.first)
+  lessons = ScheduleParser.parseLessonsFromXml(xml)
+  ScheduleParser.printLessons(lessons)
+else
+  puts 'Please provide groupid'
+end
